@@ -127,8 +127,8 @@ public class Robot extends SampleRobot {
 
     cargoFrame.set(Value.kForward);
     climbCylinders.set(Value.kReverse);
+    panelShooter.set(Value.kForward);
     climbWings.set(Value.kReverse);
-    panelShooter.set(Value.kReverse);
 
     //starts compressor named airmaker on closed loop control
     airmaker.setClosedLoopControl(true);
@@ -324,7 +324,7 @@ public void updateAToggle()
       // The motors will be updated every 5ms
       Timer.delay(0.005);
 
-      //winch Up
+
 
       
       updateAToggle();
@@ -341,6 +341,7 @@ public void updateAToggle()
         winch.set(-m_stick.getTriggerAxis(Hand.kRight));
       }
 
+      //toggles cargo roller on and off
       if(toggleBOn)
       {
         leftRoller.set(.5);
@@ -349,31 +350,21 @@ public void updateAToggle()
         leftRoller.set(0);
         rightRoller.set(0);
       }
-      /*
-      if(toggleAOn){
-        cargoFrame.set(Value.kReverse);
-      }else{
-        cargoFrame.set(Value.kForward);
-      }
-      */
-      if(m_stick.getAButtonPressed())
-      {
+      
+      //ejects and retracts the cargo-getter frame
+      if(m_stick.getAButtonPressed()){
         cargoFrame.set(Value.kReverse);
       }else if(m_stick.getAButtonReleased()){
         cargoFrame.set(Value.kForward);
       }
       
-
-
-
-
-      if(toggleRBOn){
-        panelShooter.set(Value.kForward);
-      }else{
+      //triggers cargo and panel ejection system
+      if(m_stick.getBumperPressed(Hand.kRight))
+      {
         panelShooter.set(Value.kReverse);
+      }else if(m_stick.getBumperReleased(Hand.kRight)){
+        panelShooter.set(Value.kForward);
       }
-      
-      //ejects and retracts the cargo-getter frame
 
 
       //ejects and retracts climbing cylinder legs
@@ -384,25 +375,11 @@ public void updateAToggle()
         climbCylinders.set(Value.kReverse);
       }
 
-      /*
-      if(m_stick.getRawButton(7))
-      {
-        //climbWings.set(Value.kForward);
-        panelShooter.set(Value.kForward);
+      
+      if(m_stick.getBackButton()){
+        climbWings.set(Value.kForward);
       }
       
-      if(m_stick.getRawButton(8)) {
-        //climbWings.set(Value.kReverse);
-        panelShooter.set(Value.kReverse);
-      }
-      */
-      
-      if(m_stick.getRawButtonPressed(8) && panelShooter.get() == Value.kForward){
-        panelShooter.set(Value.kReverse);
-      }
-      else{
-        panelShooter.set(Value.kForward);
-      }
 
       //ejects and retracts climbing wing retention cylinders
       /*
